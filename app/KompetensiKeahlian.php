@@ -14,7 +14,7 @@ class KompetensiKeahlian extends Model
     {
         return $this->hasMany('App\Guru', 'kompetensi_id');
     }
-    public function standarkompetensi()
+    public function standakompetensi()
     {
         return $this->hasMany('App\StandarKompetensi', 'kompetensi_id');
     }

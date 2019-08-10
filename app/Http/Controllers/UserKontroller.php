@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\User;
 use Illuminate\Http\Request;
+use App\User;
+use App\Role;
 
-class UserController extends Controller
+class UserKontroller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +16,12 @@ class UserController extends Controller
     public function index()
     {
         $user = User::all();
-        return view('admin.user.index', compact('user'));
+        $response = [
+            'success' => true,
+            'data' => $user,
+            'message' => 'Berhasil Ditampilkan'
+        ];
+        return response()->json($response, 200);
     }
 
     /**
@@ -36,27 +42,45 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = new User;
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        $namaRole = 'superadmin'; //Disini dideskripsikan nama rolenya yang akan dipilih
+        $role = Role::where('name', $namaRole)->first();
+        
+        $user->attachRole($role);
+
+        return response()->json('berhasil');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\User  $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $response = [
+            'success' => true,
+            'data' => $user,
+            'message' => 'Berhasil Ditampilkan'
+        ];
+        return response()->json($response, 200);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\User  $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
         //
     }
@@ -65,10 +89,10 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -76,10 +100,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\User  $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
         //
     }
