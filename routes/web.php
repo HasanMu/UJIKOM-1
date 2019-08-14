@@ -23,4 +23,5 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], func
         return view('home');
     });
     Route::resource('user', 'UserController');
+    Route::resource('bidangstudi', 'BidangStudiController');
 });

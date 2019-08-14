@@ -1,56 +1,167 @@
-<title>Data User</title>
+@extends('layouts.app')
+@section('css')
 <style>
-.card-header{
-    color: aliceblue;
+/* Full-width input fields */
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+/* Set a style for all buttons */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 50%;
+}
+button:hover {
+    opacity: 0.8;
+}
+/* Extra styles for the cancel button */
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+}
+/* Center the image and position the close button */
+/* .imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+    position: relative;
+}
+img.avatar {
+    width: 40%;
+    border-radius: 50%;
+} */
+.container {
+    padding: 16px;
+}
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 20%; /* Full width */
+    height: 20%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 40%; /* Could be more or less, depending on screen size */
+}
+/* The Close Button (x) */
+.close {
+    position: absolute;
+    right: 25px;
+    top: 0;
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: red;
+    cursor: pointer;
+}
+/* Add Zoom Animation */
+.animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+@-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+}
+@keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+}
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+       display: block;
+       float: none;
+    }
+    .cancelbtn {
+       width: 100%;
+    }
 }
 </style>
-@extends('layouts.app')
+@endsection
+
 @section('content')
-<div class="container">
+    <div id="id01" class="modal">
+        <form class="modal-content animate" action="/action_page.php">
+            <div class="imgcontainer">
+                 <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+    
+            </div>
+            <div class="form-group">
+                <label for="nama">Nama User</label>
+                <input type="text" name="name" id="name" class="form-control" placeholder="Nama User" required>
+              </div>
+              <div class="form-group">
+                  <label for="nama">Email</label>
+                  <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
+              </div>
+              <div class="form-group">
+                  <label for="nama">Password</label>
+                  <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+              </div>
+              {{-- <div class="form-group">
+                  <label for="">Nama Role</label>
+                  <select name="role" class="form-control">
+                      @foreach($role as $data)
+                          <option value="{{ $data->id }}">{{ $data->name }}</option>
+                      @endforeach
+                  </select>
+              </div> --}}
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary tombol-simpan">Simpan</button>
+                </div>
+            </div>     
+        </form>
+    </div>
+    <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header bg-dark">Data User</div>
-                <div class="card-body">
-                <center>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambah">Tambah</button>
-                </center>
-                <br>
-                <div class="table-responsive">
-                    <table class="table">
-                        <tr>
-                            <th><center>No</center></th>
-                            <th><center>Nama User</center></th>
-                            <th><center>Email</center></th>
-                            <th><center>Nama Role</center></th>
-                            <th colspan="3" style="text-align: center;">AKSI</th>
-                        </tr>
-                        @php $no = 1; @endphp
-                        @foreach($user as $data)
-                        <tr>
-                            <td><center>{{ $no++ }}</center></td>
-                            <td><center>{{ $data->name }}</center></td>
-                            <td><center>{{ $data->email }}</center></td>
-                            <td><center>{{ $data->role }}</center></td>
-
-                            <td><center><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit" data-id="{{ $data->id }}" data-nama="{{ $data->name }}">Edit</button>
-                                </center>
-                            </td>
-                            <td>
-                                <form action="{{ route('user.destroy',$data->id) }}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <button class="btn btn-sm btn-danger" type="submit">
-                                        Hapus Data
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </table>
+                <div class="card-header bg-dark">Data Kategori</div>
+                <div class="card-body">  
+                <center><button class="btn btn-primary" onclick="document.getElementById('id01').style.display='block'" style="width:200px;">Tambah</button></center>
+                    <div class="table-responsive">
+                        <table class="table data-user">
+                            <tr>
+                                <th><center>No</center></th>
+                                <th><center>Nama User</center></th>
+                                <th><center>Email</center></th>
+                                <th><center>Nama Role</center></th>
+                                <th colspan="3" style="text-align: center;">AKSI</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
                 </div>
             </div>
-            </div>
         </div>
+    </div>
     </div>
 @endsection
