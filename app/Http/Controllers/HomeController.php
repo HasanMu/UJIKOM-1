@@ -27,8 +27,8 @@ class HomeController extends Controller
         if (Laratrust::hasRole('admin')){
             return $this->AdminDashboard();
         }
-        if (Laratrust::hasRole('member')){
-            return $this->memberDashboard();
+        if (Laratrust::hasRole('guru')){
+            return $this->guruDashboard();
         }
         return view('home');
     }
@@ -36,7 +36,7 @@ class HomeController extends Controller
     protected function adminDashboard(){
         return redirect('/admin');
     }
-    protected function memberDashboard(){
+    protected function guruDashboard(){
         return view('home');
     }
 }

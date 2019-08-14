@@ -49,7 +49,7 @@ class UserKontroller extends Controller
         $user->password = bcrypt($request->password);
         $user->save();
 
-        $namaRole = 'superadmin'; //Disini dideskripsikan nama rolenya yang akan dipilih
+        $namaRole = 'admin'; //Disini dideskripsikan nama rolenya yang akan dipilih
         $role = Role::where('name', $namaRole)->first();
         
         $user->attachRole($role);
