@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\StandarKompetensi;
+use App\KompetensiKeahlian;
+use Session;
 
 class StandarKompetensiController extends Controller
 {
@@ -13,7 +16,9 @@ class StandarKompetensiController extends Controller
      */
     public function index()
     {
-        //
+        $standarkompetensi = StandarKompetensi::all();
+        $kompetensikeahlian = KompetensiKeahlian::all();
+        return view('admin.standarkompetensi.index', compact('kompetensikeahlian', 'standarkompetensi'));
     }
 
     /**
@@ -23,7 +28,8 @@ class StandarKompetensiController extends Controller
      */
     public function create()
     {
-        //
+        $kompetensikeahlian = KompetensiKeahlian::all();
+        return view('admin.standarkompetensi.create', compact('kompetensikeahlian'));
     }
 
     /**
@@ -34,7 +40,17 @@ class StandarKompetensiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $standarkompetensi = new StandarKompetensi;
+        $standarkompetensi->SK_kode = $request->SK_kode;
+        $standarkompetensi->kompetensi_id = $request->kompetensi_id;
+        $standarkompetensi->SK_nama = $request->SK_nama;
+        $standarkompetensi->SK_kelas = $request->SK_kelas;
+        $standarkompetensi->save();
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Berhasil Menyimpan <b>$standarkompetensi->SK_nama</b>"
+        ]);
+        return redirect()->route('standarkompetensi.index');
     }
 
     /**
@@ -56,7 +72,9 @@ class StandarKompetensiController extends Controller
      */
     public function edit($id)
     {
-        //
+        $standarkompetensi = StandarKompetensi::findOrFail($id);
+        $kompetensikeahlian = KompetensiKeahlian::all();
+        return view('admin.standarkompetensi.edit', compact('kompetensikeahlian', 'standarkompetensi'));
     }
 
     /**
@@ -68,7 +86,17 @@ class StandarKompetensiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $standarkompetensi = StandarKompetensi::findOrFail($request->id);
+        $standarkompetensi->SK_kode = $request->SK_kode;
+        $standarkompetensi->kompetensi_id = $request->kompetensi_id;
+        $standarkompetensi->SK_nama = $request->SK_nama;
+        $standarkompetensi->SK_kelas = $request->SK_kelas;
+        $standarkompetensi->save();
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Berhasil Mengedit <b>$standarkompetensi->SK_nama</b>"
+        ]);
+        return redirect()->route('standarkompetensi.index');
     }
 
     /**
@@ -79,6 +107,11 @@ class StandarKompetensiController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $standarkompetensi = StandarKompetensi::findOrFail($id)->delete();
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Berhasil menghapus data"
+        ]);
+        return redirect()->route('standarkompetensi.index');
     }
 }

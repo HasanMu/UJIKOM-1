@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Nilai;
-use App\Guru;
+use App\WaliMurid;
 use App\Siswa;
-use App\StandarKompetensi;
 use Session;
 
-class NilaiController extends Controller
+class WaliMuridController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,11 +16,9 @@ class NilaiController extends Controller
      */
     public function index()
     {
-        $nilai = Nilai::all();
+        $walimurid = WaliMurid::all();
         $siswa = Siswa::all();
-        $guru = Guru::all();
-        $standarkompetensi = StandarKompetensi::all();
-        return view('admin.nilai.index', compact('standarkompetensi', 'siswa', 'guru', 'nilai'));
+        return view('admin.walimurid.index', compact('siswa', 'walimurid'));
     }
 
     /**
@@ -32,10 +28,8 @@ class NilaiController extends Controller
      */
     public function create()
     {
-        $standarkompetensi = StandarKompetensi::all();
         $siswa = Siswa::all();
-        $guru = Guru::all();
-        return view('admin.nilai.create', compact('guru', 'siswa', 'standarkompetensi'));
+        return view('admin.walimurid.create', compact('siswa'));
     }
 
     /**
@@ -46,18 +40,20 @@ class NilaiController extends Controller
      */
     public function store(Request $request)
     {
-        $nilai = new Nilai;
-        $nilai->siswa_id = $request->siswa_id;
-        $nilai->guru_id = $request->guru_id;
-        $nilai->SK_id = $request->SK_id;
-        $nilai->nilai_angka = $request->nilai_angka;
-        $nilai->nilai_huruf = $request->nilai_huruf;
-        $nilai->save();
+        $walimurid = new WaliMurid;
+        $walimurid->siswa_id = $request->siswa_id;
+        $walimurid->wali_nama_ayah = $request->wali_nama_ayah;
+        $walimurid->wali_pekerjaan_ayah = $request->wali_pekerjaan_ayah;
+        $walimurid->wali_nama_ibu = $request->wali_nama_ibu;
+        $walimurid->wali_pekerjaan_ibu = $request->wali_pekerjaan_ibu;
+        $walimurid->wali_alamat = $request->wali_alamat;
+        $walimurid->wali_telepon = $request->wali_telepon;
+        $walimurid->save();
         Session::flash("flash_notification", [
             "level" => "success",
-            "message" => "Berhasil Menyimpan <b>$nilai->nilai_angka</b>"
+            "message" => "Berhasil Menyimpan <b>$walimurid->wali_nama_ayah</b>"
         ]);
-        return redirect()->route('nilai.index');
+        return redirect()->route('walimurid.index');
     }
 
     /**
@@ -79,11 +75,9 @@ class NilaiController extends Controller
      */
     public function edit($id)
     {
-        $nilai = Nilai::findOrFail($id);
+        $walimurid = WaliMurid::findOrFail($id);
         $siswa = Siswa::all();
-        $guru = Guru::all();
-        $standarkompetensi = StandarKompetensi::all();
-        return view('admin.nilai.edit', compact('standarkompetensi', 'guru', 'siswa', 'nilai'));
+        return view('admin.walimurid.edit', compact('siswa', 'walimurid'));
     }
 
     /**
@@ -95,18 +89,20 @@ class NilaiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $nilai = Nilai::findOrFail($request->id);
-        $nilai->siswa_id = $request->siswa_id;
-        $nilai->guru_id = $request->guru_id;
-        $nilai->SK_id = $request->SK_id;
-        $nilai->nilai_angka = $request->nilai_angka;
-        $nilai->nilai_huruf = $request->nilai_huruf;
-        $nilai->save();
+        $walimurid = WaliMurid::findOrFail($request->id);
+        $walimurid->siswa_id = $request->siswa_id;
+        $walimurid->wali_nama_ayah = $request->wali_nama_ayah;
+        $walimurid->wali_pekerjaan_ayah = $request->wali_pekerjaan_ayah;
+        $walimurid->wali_nama_ibu = $request->wali_nama_ibu;
+        $walimurid->wali_pekerjaan_ibu = $request->wali_pekerjaan_ibu;
+        $walimurid->wali_alamat = $request->wali_alamat;
+        $walimurid->wali_telepon = $request->wali_telepon;
+        $standarkomp->save();
         Session::flash("flash_notification", [
             "level" => "success",
-            "message" => "Berhasil Mengedit <b>$nilai->nilai_angka</b>"
+            "message" => "Berhasil Mengedit <b>$walimurid->wali_nama_ayah</b>"
         ]);
-        return redirect()->route('nilai.index');
+        return redirect()->route('walimurid.index');
     }
 
     /**
@@ -117,11 +113,11 @@ class NilaiController extends Controller
      */
     public function destroy($id)
     {
-        $nilai = Nilai::findOrFail($id)->delete();
+        $walimurid = WaliMurid::findOrFail($id)->delete();
         Session::flash("flash_notification", [
             "level" => "success",
             "message" => "Berhasil menghapus data"
         ]);
-        return redirect()->route('nilai.index');
+        return redirect()->route('walimurid.index');
     }
 }

@@ -8,7 +8,7 @@
                     </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('bidangstudi.update', 'test') }}" method="post">
+                <form action="{{ route('kompetensikeahlian.update', 'test') }}" method="post">
                     @csrf
                     @method('PATCH')
                     <input type="hidden" name="id" id="id">
@@ -16,14 +16,14 @@
                     <label for="nama">Kode Kompetensi</label>
                     <input type="text" name="kompetensi_kode" id="kompetensi_kode" class="form-control" placeholder="Kompetensi Kode" required>
                 </div>
-                {{-- <div class="form-group">
+                <div class="form-group">
                     <label for="">Nama Bidang Studi</label>
                     <select name="bidang_id" class="form-control">
                         @foreach($bidangstudi as $data)
-                            <option value="{{ $data->id }}"{{ $kompetensikeahlian->bidangstudi->id == $data->id ? 'selected="selected"' : ''}}>{{ $data->bidang_nama }}</option>
+                            <option value="{{ $data->id }}">{{ $data->bidang_nama }}</option>
                         @endforeach 
                     </select>
-                </div> --}}
+                </div>
                 <div class="form-group">
                     <label for="nama">Nama Kompetensi</label>
                     <input type="text" name="kompetensi_nama" id="kompetensi_nama" class="form-control" placeholder="Nama Kompetensi">

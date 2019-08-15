@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Siswa;
+use App\KompetensiKeahlian;
+use File;
+use Session;
 
 class SiswaController extends Controller
 {
@@ -13,7 +17,9 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        //
+        $siswa = Siswa::all();
+        $kompetensikeahlian = KompetensiKeahlian::all();
+        return view('admin.siswa.index', compact('kompetensikeahlian', 'siswa'));
     }
 
     /**
@@ -23,7 +29,8 @@ class SiswaController extends Controller
      */
     public function create()
     {
-        //
+        $kompetensikeahlian = KompetensiKeahlian::all();
+        return view('admin.siswa.create', compact('kompetensikeahlian'));
     }
 
     /**
@@ -34,7 +41,30 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $siswa = new Siswa;
+        $siswa->siswa_NISN = $request->siswa_NISN;
+        $siswa->kompetensi_id = $request->kompetensi_id;
+        $siswa->siswa_nama = $request->siswa_nama;
+        $siswa->siswa_alamat = $request->siswa_alamat;
+        $siswa->siswa_tgl_lahir = $request->siswa_tgl_lahir;
+        if ($request->hasFile('foto')){
+            $file = $request->file('foto');
+            $path = public_path().
+                            '/assets/img/siswa/';
+            $filename = str_random(6).'_'
+                        .$file->getClientOriginalName();
+            $uploadSuccess = $file->move(
+                $path,
+                $filename
+            );
+            $siswa->siswa_foto = $filename;
+        }
+        $siswa->save();
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Berhasil Menyimpan <b>$siswa->siswa_nama</b>"
+        ]);
+        return redirect()->route('siswaetensi.index');
     }
 
     /**
@@ -56,7 +86,9 @@ class SiswaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $siswa = Siswa::findOrFail($id);
+        $kompetensikeahlian = KompetensiKeahlian::all();
+        return view('admin.siswa.edit', compact('kompetensikeahlian', 'siswa'));
     }
 
     /**
@@ -68,7 +100,42 @@ class SiswaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $siswa = Siswa::findOrFail($request->id);
+        $siswa->siswa_NISN = $request->siswa_NISN;
+        $siswa->kompetensi_id = $request->kompetensi_id;
+        $siswa->siswa_nama = $request->siswa_nama;
+        $siswa->siswa_alamat = $request->siswa_alamat;
+        $siswa->siswa_tgl_lahir = $request->siswa_tgl_lahir;
+        if ($request->hasFile('foto')){
+            $file = $request->file('foto');
+            $path = public_path().
+                            '/assets/img/siswa/';
+            $filename = str_random(6).'_'
+                        .$file->getClientOriginalName();
+            $uploadSuccess = $file->move(
+                $path,
+                $filename
+            );
+            // hapus foto lama, jika ada
+            if ($siswa->siswa_foto){
+                $old_foto = $siswa->siswa_foto;
+                $filepath = public_path()
+                .'/assets/img/siswa'
+                .$siswa->siswa_foto;    
+                try {
+                    File::delete($filepath);
+                } catch (FileNotFoundException $e) {
+                    // File sudah dihapus/tidak ada
+                }
+            }
+            $siswa->siswa_foto = $filename;
+        }
+        $siswa->save();
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Berhasil Mengedit <b>$siswa->siswa_nama</b>"
+        ]);
+        return redirect()->route('siswa.index');
     }
 
     /**
@@ -79,6 +146,23 @@ class SiswaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $siswa = Siswa::findOrFail($id);
+        if ($siswa->siswa_foto){
+            $old_foto = $siswa->siswa_foto;
+            $filepath = public_path()
+            .'/assets/img/siswa'
+            .$siswa->siswa_foto;    
+            try {
+                File::delete($filepath);
+            } catch (FileNotFoundException $e) {
+                // File sudah dihapus/tidak ada
+            }
+        }
+        $siswa->delete();
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Berhasil menghapus data"
+        ]);
+        return redirect()->route('siswa.index');
     }
 }

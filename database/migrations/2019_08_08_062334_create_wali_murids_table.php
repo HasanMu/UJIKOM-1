@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWaliSiswasTable extends Migration
+class CreateWaliMuridsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateWaliSiswasTable extends Migration
      */
     public function up()
     {
-        Schema::create('wali_siswas', function (Blueprint $table) {
+        Schema::create('wali_murids', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('siswa_id');
             $table->string('wali_nama_ayah');
@@ -35,6 +35,6 @@ class CreateWaliSiswasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('wali_siswas');
+        Schema::dropIfExists('wali_murids');
     }
 }

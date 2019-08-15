@@ -35,7 +35,22 @@
                     <ul class="navbar-nav mr-auto">
                         @role('admin')
                         <li class="nav-item">
-                            <a class="nav-link" href="/">Menu Admin</a>
+                            <a class="nav-link" href="/admin/bidangstudi">Bidang Studi</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/guru">Guru</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/kompetensikeahlian">Kompetensi Keahlian</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/siswa">Siswa</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/standarkompetensi">Standar Kompetensi</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/walimurid">Wali Murid</a>
                         </li>
                         @endrole
 
@@ -43,10 +58,7 @@
                     {{-- - --}}
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" href="/">Menu Member</a>
-                            </li>
-                            <li class="nav-item">
-                                    <a class="nav-link" href="/">Menu Member</a>
+                                <a class="nav-link" href="/admin/nilai">Nilai</a>
                             </li>
                     @endguest
                 

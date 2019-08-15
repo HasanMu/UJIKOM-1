@@ -16,7 +16,7 @@ class KompetensiKeahlianController extends Controller
      */
     public function index()
     {
-        $kompetensikeahlian = KompetensiKeahlian::with('bidangstudi')->get();
+        $kompetensikeahlian = KompetensiKeahlian::all();
         $bidangstudi = BidangStudi::all();
         return view('admin.kompetensikeahlian.index', compact('kompetensikeahlian', 'bidangstudi'));
     }
@@ -85,8 +85,8 @@ class KompetensiKeahlianController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $kompetensikeahlian = KompetensiKeahlian::findOrFail($id);
-        $kompetensikeahlian->id_bidangstudi = $request->id_bidangstudi;
+        $kompetensikeahlian = KompetensiKeahlian::findOrFail($request->id);
+        $kompetensikeahlian->bidang_id = $request->bidang_id;
         $kompetensikeahlian->kompetensi_kode = $request->kompetensi_kode;
         $kompetensikeahlian->kompetensi_nama = $request->kompetensi_nama;
         $kompetensikeahlian->save();

@@ -8,6 +8,7 @@
 @section('content')
 @include('admin.bidangstudi.create')
 @include('admin.bidangstudi.edit')
+@include('layouts.flash')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">

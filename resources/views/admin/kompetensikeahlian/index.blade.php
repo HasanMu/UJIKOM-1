@@ -36,14 +36,15 @@
                             <td><center>{{ $data->bidangstudi->bidang_nama }}</center></td>
                             <td><center>{{ $data->kompetensi_nama }}</center></td>
 
-                            <td><center><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit" data-id="{{ $data->id }}" 
+                            <td><center><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit" 
+                                data-id="{{ $data->id }}" 
                                 data-kode="{{ $data->kompetensi_kode }}"
                                 data-bidang="{{ $data->bidangstudi->bidang_nama }}"
                                 data-nama="{{ $data->kompetensi_nama }}">Edit</button>
                                 </center>
                             </td>
                             <td>
-                                <form action="{{ route('bidangstudi.destroy',$data->id) }}" method="post">
+                                <form action="{{ route('kompetensikeahlian.destroy',$data->id) }}" method="post">
                                     @csrf
                                     <input type="hidden" name="_method" value="DELETE">
                                     <button class="btn btn-sm btn-danger" type="submit">
@@ -59,4 +60,19 @@
             </div>
         </div>
     </div>
+    <script>
+        $('#edit').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var id = button.data('id')
+        var kode = button.data('kode')
+        var bidang = button.data('bidang')
+        var nama = button.data('nama')
+        var modal = $(this)
+    
+        modal.find('input[name="id"]').val(id)
+        modal.find('input[name="kompetensi_kode"]').val(kode)
+        modal.find('input[name="bidang_id"]').val(bidang)
+        modal.find('input[name="kompetensi_nama"]').val(nama)
+    })  
+        </script>
 @endsection

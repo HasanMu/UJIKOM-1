@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Guru;
+use App\KompetensiKeahlian;
+use Session;
 
 class GuruController extends Controller
 {
@@ -13,7 +16,9 @@ class GuruController extends Controller
      */
     public function index()
     {
-        //
+        $guru = Guru::all();
+        $kompetensikeahlian = KompetensiKeahlian::all();
+        return view('admin.guru.index', compact('kompetensikeahlian', 'guru'));
     }
 
     /**
@@ -23,7 +28,8 @@ class GuruController extends Controller
      */
     public function create()
     {
-        //
+        $kompetensikeahlian = KompetensiKeahlian::all();
+        return view('admin.guru.create', compact('kompetensikeahlian'));
     }
 
     /**
@@ -34,7 +40,19 @@ class GuruController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $guru = new Guru;
+        $guru->guru_kode = $request->guru_kode;
+        $guru->kompetensi_id = $request->kompetensi_id;
+        $guru->guru_NIP = $request->guru_NIP;
+        $guru->guru_nama = $request->guru_nama;
+        $guru->guru_alamat = $request->guru_alamat;
+        $guru->guru_telpon = $request->guru_telpon;
+        $guru->save();
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Berhasil Menyimpan <b>$guru->guru_nama</b>"
+        ]);
+        return redirect()->route('guru.index');
     }
 
     /**
@@ -56,7 +74,9 @@ class GuruController extends Controller
      */
     public function edit($id)
     {
-        //
+        $guru = Guru::findOrFail($id);
+        $kompetensikeahlian = KompetensiKeahlian::all();
+        return view('admin.guru.edit', compact('kompetensikeahlian', 'guru'));
     }
 
     /**
@@ -68,7 +88,19 @@ class GuruController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $guru = Guru::findOrFail($request->id);
+        $guru->guru_kode = $request->guru_kode;
+        $guru->kompetensi_id = $request->kompetensi_id;
+        $guru->guru_NIP = $request->guru_NIP;
+        $guru->guru_nama = $request->guru_nama;
+        $guru->guru_alamat = $request->guru_alamat;
+        $guru->guru_telpon = $request->guru_telpon;
+        $guru->save();
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Berhasil Mengedit <b>$guru->guru_nama</b>"
+        ]);
+        return redirect()->route('guru.index');
     }
 
     /**
@@ -79,6 +111,11 @@ class GuruController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $guru = Guru::findOrFail($id)->delete();
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Berhasil menghapus data"
+        ]);
+        return redirect()->route('guru.index');
     }
 }
