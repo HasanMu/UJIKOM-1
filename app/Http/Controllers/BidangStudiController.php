@@ -80,7 +80,7 @@ class BidangStudiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $bidangstudi = BidangStudi::findOrFail($id);
+        $bidangstudi = BidangStudi::findOrFail($request->id);
         $bidangstudi->bidang_kode = $request->bidang_kode;
         $bidangstudi->bidang_nama = $request->bidang_nama;
         $bidangstudi->save();

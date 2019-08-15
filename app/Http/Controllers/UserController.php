@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Session;
 
 use Illuminate\Http\Request;
 
@@ -26,7 +27,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        
+        return view('admin.user.create');
     }
 
     /**
@@ -37,7 +38,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-    
+        $user = new User;
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        $namaRole = 'admin'; //Disini dideskripsikan nama rolenya yang akan dipilih
+        $role = Role::where('name', $namaRole)->first();
+        
+        $user->attachRole($role);
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Berhasil Menyimpan <b>$user->name</b>"
+        ]);
+        return redirect()->route('user.index');
     }
 
     /**
@@ -59,7 +75,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('admin.user.edit', compact('user'));
     }
 
     /**
@@ -71,7 +88,22 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $user = new User;
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        $namaRole = 'admin'; //Disini dideskripsikan nama rolenya yang akan dipilih
+        $role = Role::where('name', $namaRole)->first();
         
+        $user->syncRole($role);
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Berhasil Mengedit <b>$user->name</b>"
+        ]);
+        return redirect()->route('user.index');
     }
 
     /**
@@ -82,6 +114,13 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+        $user->detachRole($role);
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Berhasil menghapus data"
+        ]);
+        return redirect()->route('user.index');
     }
 }

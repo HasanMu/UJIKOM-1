@@ -24,4 +24,5 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], func
     });
     Route::resource('user', 'UserController');
     Route::resource('bidangstudi', 'BidangStudiController');
+    Route::resource('kompetensikeahlian', 'KompetensiKeahlianController');
 });

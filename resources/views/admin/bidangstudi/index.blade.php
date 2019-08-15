@@ -33,7 +33,7 @@
                             <td><center>{{ $data->bidang_kode }}</center></td>
                             <td><center>{{ $data->bidang_nama }}</center></td>
 
-                            <td><center><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit" data-id="{{ $data->id }}" data-nama="{{ $data->bidang_kode }}">Edit</button>
+                            <td><center><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit" data-id="{{ $data->id }}" data-kode="{{ $data->bidang_kode }}"  data-nama="{{ $data->bidang_nama }}">Edit</button>
                                 </center>
                             </td>
                             <td>
@@ -53,4 +53,18 @@
             </div>
         </div>
     </div>
+    <script>
+        $('#edit').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var id = button.data('id')
+        var kode = button.data('kode')
+        var nama = button.data('nama')
+        var modal = $(this)
+    
+        modal.find('input[name="id"]').val(id)
+        modal.find('input[name="bidang_kode"]').val(kode)
+        modal.find('input[name="bidang_nama"]').val(nama)
+    })  
+        </script>
+  
 @endsection
