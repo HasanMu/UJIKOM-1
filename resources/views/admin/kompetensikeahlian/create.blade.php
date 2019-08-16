@@ -12,7 +12,7 @@
                     @csrf
                 <div class="form-group">
                   <label for="nama">Kode Kompetensi</label>
-                  <input type="text" name="kompetensi_kode" id="kompetensi_kode" class="form-control" placeholder="Kompetensi Kode" required>
+                  <input type="text" name="kompetensi_kode" id="kompetensi_kode" class="form-control" placeholder="Kode Kompetensi" required>
                 </div>
                 <div class="form-group">
                     <label for="">Nama Bidang Studi</label>

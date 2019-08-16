@@ -57,14 +57,14 @@ class SiswaController extends Controller
                 $path,
                 $filename
             );
-            $siswa->siswa_foto = $filename;
+            $siswa->foto = $filename;
         }
         $siswa->save();
         Session::flash("flash_notification", [
             "level" => "success",
             "message" => "Berhasil Menyimpan <b>$siswa->siswa_nama</b>"
         ]);
-        return redirect()->route('siswaetensi.index');
+        return redirect()->route('siswa.index');
     }
 
     /**

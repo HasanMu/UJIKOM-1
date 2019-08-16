@@ -20,7 +20,7 @@ class CreateSiswasTable extends Migration
             $table->string('siswa_nama');
             $table->text('siswa_alamat');
             $table->date('siswa_tgl_lahir');
-            $table->string('siswa_foto')->nullable();
+            $table->string('foto')->nullable();
 
             $table->foreign('kompetensi_id')->references('id')->on('kompetensi_keahlians');
             $table->timestamps();
