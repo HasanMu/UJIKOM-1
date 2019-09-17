@@ -33,7 +33,13 @@
                             <td><center>{{ $no++ }}</center></td>
                             <td><center>{{ $data->name }}</center></td>
                             <td><center>{{ $data->email }}</center></td>
-                            <td><center>{{ $data->role }}</center></td>
+                            <td><center>{{ 
+                                @if($data->hasRole('admin'))
+                                Admin
+                                @elseif($data->hasRole('member'))
+                                Member
+                                @endif
+                                </center></td>
 
                             <td><center><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit" data-id="{{ $data->id }}" data-nama="{{ $data->user }}">Edit</button>
                                 </center>
